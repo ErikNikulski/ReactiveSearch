@@ -6,7 +6,7 @@ export default class SearchResults extends Component{
 
         let results = this.props.results.map(result => {
             return (
-                <SearchResult result={result}/>
+                <SearchResult key={result} result={result}/>
             )
         });
 
