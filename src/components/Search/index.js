@@ -19,6 +19,19 @@ export default class Search extends Component{
 
     handleQueryChange(query) {
         this.setState({query: query});
+        this.search(query, this.state.options);
+    }
+
+    search(query, options) {
+        options = options.map(option =>
+            option.name
+        );
+
+        let res = options.filter(option =>
+            option.includes(query)
+        );
+
+        this.setState({results: res});
     }
 
     // NOTE: Might want to do this in parent component
