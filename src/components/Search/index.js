@@ -26,11 +26,12 @@ export default class Search extends Component{
 
     search(query, options, title="Search Results") {
         let res;
+        query = query.toString().toLowerCase();
 
         if (Array.isArray(options)) {
 
             res = options.filter(option =>
-                option.includes(query)
+                option.toString().toLowerCase().includes(query)
             );
 
         } else if (typeof options === "object") {
