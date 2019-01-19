@@ -11,7 +11,7 @@ export default class Search extends Component{
         this.state = {
             query: '',
             options: [],
-            results: []
+            results: {title: "", results: []}
         };
 
         this.handleQueryChange = this.handleQueryChange.bind(this);
@@ -19,29 +19,54 @@ export default class Search extends Component{
 
     handleQueryChange(query) {
         this.setState({query: query});
-        this.search(query, this.state.options);
+        this.setState({results: this.search(query, this.state.options)});
     }
 
-    search(query, options) {
-        options = options.map(option =>
-            option.name
-        );
+    static capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
-        let res = options.filter(option =>
-            option.includes(query)
-        );
+    search(query, options, title="Search Results") {
+        let res;
 
-        this.setState({results: res});
+        if (Array.isArray(options)) {
+
+            res = options.filter(option =>
+                option.includes(query)
+            );
+
+        } else if (typeof options === "object") {
+            let self = this;
+            res = Object.keys(options).map(function (k) {
+                return self.search(query, options[k], Search.capitalizeFirstLetter(k.toString()));
+            });
+        }
+
+        return {title: title, results: res};
+    }
+
+    friendlify(array) {
+        // https://stackoverflow.com/a/29177205
+        return array.reduce(function(acc, obj) {
+            Object.keys(obj).forEach(function(k) {
+                acc[k] = (acc[k] || []).concat(obj[k])
+            });
+            return acc
+        },{})
     }
 
     // NOTE: Might want to do this in parent component
     getData() {
+        let self = this;
         $.ajax({
             url: 'https://jsonplaceholder.typicode.com/comments',
             dataType: 'json',
             cache: false,
             success: function (data) {
-                this.setState({options: data})
+                let options = self.friendlify(data);
+                delete options.id;
+                delete options.postId;
+                this.setState({options: options})
             }.bind(this),
             error: function (xhr, status, err) {
                 console.log(err);
@@ -54,15 +79,20 @@ export default class Search extends Component{
     }
 
     componentDidMount() {
-        console.log(this.props.data);
         this.getData();
     }
 
     render() {
+        let results;
+
+        if (this.state.query.length >= 3) {
+            results = <SearchResults results={this.state.results}/>;
+        }
+
         return (
             <div>
                 <SearchBar onQueryChange={this.handleQueryChange}/>
-                <SearchResults results={this.state.results}/>
+                {results}
             </div>
         )
     }
