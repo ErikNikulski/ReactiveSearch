@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Search from "./components/Search";
-import $ from "jquery";
+import $ from 'jquery';
 
 class App extends Component {
 
@@ -49,7 +49,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className='App'>
         <Search data={this.state.options}/>
       </div>
     );

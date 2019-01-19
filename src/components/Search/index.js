@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import SearchBar from "./SearchBar";
-import SearchResults from "./SearchResults";
+import SearchBar from './SearchBar';
+import SearchResults from './SearchResults';
 
 export default class Search extends Component{
 
@@ -9,7 +9,7 @@ export default class Search extends Component{
 
         this.state = {
             query: '',
-            results: {title: "", results: []}
+            results: {title: '', results: []}
         };
 
         this.handleQueryChange = this.handleQueryChange.bind(this);
@@ -17,14 +17,16 @@ export default class Search extends Component{
 
     handleQueryChange(query) {
         this.setState({query: query});
-        this.setState({results: this.search(query, this.props.data)});
+        this.setState((state, props) => ({
+            results: this.search(query, props.data)
+        }));
     }
 
     static capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    search(query, options, title="Search Results") {
+    search(query, options, title='Search Results') {
         let res;
         query = query.toString().toLowerCase();
 
@@ -34,11 +36,10 @@ export default class Search extends Component{
                 option.toString().toLowerCase().includes(query)
             );
 
-        } else if (typeof options === "object") {
-            let self = this;
-            res = Object.keys(options).map(function (k) {
-                return self.search(query, options[k], Search.capitalizeFirstLetter(k.toString()));
-            });
+        } else if (typeof options === 'object') {
+            res = Object.entries(options).map(([key, option]) =>
+                this.search(query, option, Search.capitalizeFirstLetter(key.toString()))
+            );
         }
 
         return {title: title, results: res};
