@@ -1,1 +1,1 @@
-Simple search with React
+### Simple search with [React](https://reactjs.org/), [Material UI](https://material-ui.com/) and [styled-components](https://www.styled-components.com/)

@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { AppBar, Toolbar } from '@material-ui/core';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 
@@ -53,10 +54,14 @@ export default class Search extends Component{
         }
 
         return (
-            <div>
-                <SearchBar onQueryChange={this.handleQueryChange}/>
+            <Fragment>
+                <AppBar position="static" color="default">
+                    <Toolbar>
+                        <SearchBar onQueryChange={this.handleQueryChange}/>
+                    </Toolbar>
+                </AppBar>
                 {results}
-            </div>
+            </Fragment>
         )
     }
 }
