@@ -39,10 +39,10 @@ export default class SearchBar extends Component{
     render() {
         return (
             <InputSearchWrapper>
-                <InputSearch placeholder={'Search...'} autoFocus={true} onChange={this.handleQueryChange} />
                 <IconWrapper aria-label={'Search'}>
                     <SearchIcon />
                 </IconWrapper>
+                <InputSearch placeholder={'Search...'} autoFocus={true} onChange={this.handleQueryChange} />
             </InputSearchWrapper>
         )
     }
