@@ -17,8 +17,8 @@ export default class Search extends Component{
     }
 
     handleQueryChange(query) {
-        this.setState({query: query});
         this.setState((state, props) => ({
+            query: query,
             results: this.search(query, props.data)
         }));
     }
