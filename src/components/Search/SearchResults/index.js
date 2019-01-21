@@ -11,7 +11,7 @@ const style = {
     }
 };
 
-export default memo(function SearchResults({ results: { title, results } }){
+const SearchResults = ({ results: { title, results } }) => {
     let res;
 
     if(results.every(el => typeof el === 'string')) {
@@ -44,4 +44,6 @@ export default memo(function SearchResults({ results: { title, results } }){
             {res}
         </List>
     )
-})
+};
+
+export default memo(SearchResults)

@@ -20,8 +20,7 @@ const IconWrapper = styled(IconButton)`
     padding: 10px;
 `;
 
-export default memo(function SearchBar({ onQueryChange }){
-    return (
+const SearchBar = ({ onQueryChange }) => (
         <InputSearchWrapper>
             <IconWrapper aria-label={'Search'}>
                 <SearchIcon />
@@ -32,5 +31,6 @@ export default memo(function SearchBar({ onQueryChange }){
                 onChange={(e) => onQueryChange(e.target.value)}
             />
         </InputSearchWrapper>
-    )
-})
+);
+
+export default memo(SearchBar)
