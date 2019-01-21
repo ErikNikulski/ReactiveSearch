@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React, { memo } from 'react';
 import { ListItem, ListItemText } from "@material-ui/core";
 
-export default class SearchResult extends Component{
-    render() {
-        return (
-            <ListItem>
-                <ListItemText primary={this.props.result}/>
-            </ListItem>
-        )
-    }
-}
+export default memo(function SearchResult({ result }) {
+    return (
+        <ListItem>
+            <ListItemText primary={result}/>
+        </ListItem>
+    )
+})

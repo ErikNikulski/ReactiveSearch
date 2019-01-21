@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { memo } from 'react';
 import { Input, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
@@ -20,30 +20,17 @@ const IconWrapper = styled(IconButton)`
     padding: 10px;
 `;
 
-export default class SearchBar extends Component{
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            query: ''
-        };
-
-        this.handleQueryChange = this.handleQueryChange.bind(this);
-    }
-
-    handleQueryChange(e) {
-        this.props.onQueryChange(e.target.value);
-    }
-
-    render() {
-        return (
-            <InputSearchWrapper>
-                <IconWrapper aria-label={'Search'}>
-                    <SearchIcon />
-                </IconWrapper>
-                <InputSearch placeholder={'Search...'} autoFocus={true} onChange={this.handleQueryChange} />
-            </InputSearchWrapper>
-        )
-    }
-}
+export default memo(function SearchBar({ onQueryChange }){
+    return (
+        <InputSearchWrapper>
+            <IconWrapper aria-label={'Search'}>
+                <SearchIcon />
+            </IconWrapper>
+            <InputSearch
+                placeholder={'Search...'}
+                autoFocus={true}
+                onChange={(e) => onQueryChange(e.target.value)}
+            />
+        </InputSearchWrapper>
+    )
+})

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { memo } from 'react';
 import { List, ListSubheader, ListItem, ListItemText } from '@material-ui/core';
 import SearchResult from './SearchResult';
 
@@ -11,39 +11,37 @@ const style = {
     }
 };
 
-export default class SearchResults extends Component{
-    render() {
-        let results;
+export default memo(function SearchResults({ results: { title, results } }){
+    let res;
 
-        if(this.props.results.results.every(el => typeof el === 'string')) {
-            if (this.props.results.results.length !== 0) {
-                results =
-                    this.props.results.results.map(result =>
-                        <SearchResult key={result} result={result}/>
-                    )
-            } else {
-                results =
-                <ListItem>
-                    <ListItemText primary={'No matches found!'}/>
-                </ListItem>;
-            }
+    if(results.every(el => typeof el === 'string')) {
+        if (results.length !== 0) {
+            res =
+                results.map(result =>
+                    <SearchResult key={result} result={result}/>
+                )
         } else {
-            results = Object.entries(this.props.results.results).map(([, results]) =>
-                <SearchResults key={results.title} results={results}/>
-            );
+            res =
+            <ListItem>
+                <ListItemText primary={'No matches found!'}/>
+            </ListItem>;
         }
-
-        return (
-            <List
-                style={style.List}
-                subheader={
-                    <ListSubheader disableSticky={true} style={style.ListSubheader}>
-                        {this.props.results.title}
-                    </ListSubheader>
-                }
-            >
-                {results}
-            </List>
-        )
+    } else {
+        res = Object.entries(results).map(([, results]) =>
+            <SearchResults key={results.title} results={results}/>
+        );
     }
-}
+
+    return (
+        <List
+            style={style.List}
+            subheader={
+                <ListSubheader disableSticky={true} style={style.ListSubheader}>
+                    {title}
+                </ListSubheader>
+            }
+        >
+            {res}
+        </List>
+    )
+})
