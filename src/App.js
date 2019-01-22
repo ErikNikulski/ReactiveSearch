@@ -51,7 +51,7 @@ class App extends Component {
     render() {
         return (
             <div className='App'>
-                <Search data={this.state.options} blacklist={['id', 'postId']} error={this.state.error}/>
+                <Search data={this.state.options} debounce={250} blacklist={['id', 'postId']} error={this.state.error}/>
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'bottom',

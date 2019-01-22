@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce'
 import { Input, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
@@ -21,7 +22,12 @@ const IconWrapper = styled(IconButton)`
     padding: 10px;
 `;
 
-const SearchBar = ({ onQueryChange }) => (
+const SearchBar = ({ onQueryChange, debounce: debounceTime }) => {
+    const handleQueryChange = event => {
+        debounce(value => onQueryChange(value), debounceTime)(event.target.value)
+    };
+
+    return (
         <InputSearchWrapper>
             <IconWrapper aria-label={'Search'}>
                 <SearchIcon />
@@ -29,13 +35,15 @@ const SearchBar = ({ onQueryChange }) => (
             <InputSearch
                 placeholder={'Search...'}
                 autoFocus={true}
-                onChange={(e) => onQueryChange(e.target.value)}
+                onChange={handleQueryChange}
             />
         </InputSearchWrapper>
-);
+    )
+};
 
 export default memo(SearchBar);
 
 SearchBar.propTypes = {
-    onQueryChange: PropTypes.func.isRequired
+    onQueryChange: PropTypes.func.isRequired,
+    debounce: PropTypes.number
 };

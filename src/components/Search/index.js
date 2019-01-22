@@ -54,7 +54,7 @@ export default class Search extends Component{
             <Fragment>
                 <AppBar position="static" color="default">
                     <Toolbar>
-                        <SearchBar onQueryChange={this.handleQueryChange}/>
+                        <SearchBar onQueryChange={this.handleQueryChange} debounce={this.props.debounce}/>
                     </Toolbar>
                 </AppBar>
                 {this.state.query.length > 2 ?
@@ -68,7 +68,8 @@ export default class Search extends Component{
 }
 
 Search.defaultProps = {
-    blacklist: []
+    blacklist: [],
+    debounce: 0
 };
 
 const dataShape = {
@@ -84,5 +85,6 @@ dataShape.key = PropTypes.arrayOf(
 
 Search.propTypes = {
     data: PropTypes.shape(dataShape).isRequired,
+    debounce: PropTypes.number,
     blacklist: PropTypes.arrayOf(PropTypes.string)
 };
