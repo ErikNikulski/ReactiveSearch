@@ -8,7 +8,7 @@ class App extends Component {
 
         this.state = {
             options: {},
-            error: null
+            error: false
         }
     }
 
@@ -29,7 +29,7 @@ class App extends Component {
             this.setState({
                 options: this.changeStructure(json)
             })
-        ).catch(error => this.setState({ error }));
+        ).catch(() => this.setState({ error: true }));
     }
 
     componentWillMount() {

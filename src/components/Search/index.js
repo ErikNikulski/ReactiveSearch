@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, Snackbar } from '@material-ui/core';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 
@@ -11,10 +11,12 @@ export default class Search extends Component{
 
         this.state = {
             query: '',
-            results: {title: '', results: []}
+            results: {title: '', results: []},
+            error_open: false
         };
 
         this.handleQueryChange = this.handleQueryChange.bind(this);
+        this.handleErrorClose = this.handleErrorClose.bind(this);
     }
 
     handleQueryChange(query) {
@@ -22,6 +24,10 @@ export default class Search extends Component{
             query: query,
             results: this.search(query, props.data, 'Search Results', props.blacklist)
         }));
+    }
+
+    handleErrorClose() {
+        this.setState({error_open: false})
     }
 
     static capitalizeFirstLetter(string) {
@@ -49,6 +55,12 @@ export default class Search extends Component{
         return {title: title, results: res};
     }
 
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.error !== this.state.error_open) {
+            this.setState({error_open: nextProps.error})
+        }
+    }
+
     render() {
         return (
             <Fragment>
@@ -57,14 +69,24 @@ export default class Search extends Component{
                         <SearchBar onQueryChange={this.handleQueryChange}/>
                     </Toolbar>
                 </AppBar>
-                {
-                    this.props.error ?
-                        'There was an error fetching the data!'
-                    : this.state.query.length > 2 ?
-                        <SearchResults results={this.state.results}/>
-                    :
-                        undefined
+                {this.state.query.length > 2 ?
+                    <SearchResults results={this.state.results}/>
+                :
+                    undefined
                 }
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.error_open}
+                    autoHideDuration={6000}
+                    onClose={this.handleErrorClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span>There was an error fetching the data!</span>}
+                />
             </Fragment>
         )
     }
