@@ -50,12 +50,6 @@ export default class Search extends Component{
     }
 
     render() {
-        let results;
-
-        if (this.state.query.length >= 3) {
-            results = <SearchResults results={this.state.results}/>;
-        }
-
         return (
             <Fragment>
                 <AppBar position="static" color="default">
@@ -63,7 +57,12 @@ export default class Search extends Component{
                         <SearchBar onQueryChange={this.handleQueryChange}/>
                     </Toolbar>
                 </AppBar>
-                {results}
+                {
+                    this.state.query.length > 2 ?
+                        <SearchResults results={this.state.results}/>
+                    :
+                        undefined
+                }
             </Fragment>
         )
     }
