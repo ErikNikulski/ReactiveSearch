@@ -15,7 +15,6 @@ class App extends Component {
         // https://stackoverflow.com/a/29177205
         array.reduce((acc, obj) => {
             Object.keys(obj)
-                .filter((k) => !['id', 'postId'].includes(k))
                 .forEach((k) =>
                     acc[k] = (acc[k] || []).concat(obj[k])
             );
@@ -43,7 +42,7 @@ class App extends Component {
     render() {
         return (
             <div className='App'>
-                <Search data={this.state.options}/>
+                <Search data={this.state.options} blacklist={['id', 'postId']}/>
             </div>
         );
     }

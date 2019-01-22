@@ -19,7 +19,7 @@ export default class Search extends Component{
     handleQueryChange(query) {
         this.setState((state, props) => ({
             query: query,
-            results: this.search(query, props.data)
+            results: this.search(query, props.data, 'Search Results', props.blacklist)
         }));
     }
 
@@ -27,7 +27,7 @@ export default class Search extends Component{
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    search(query, options, title='Search Results') {
+    search(query, options, title='Search Results', blacklist=[]) {
         let res;
         query = query.toString().toLowerCase();
 
@@ -38,7 +38,9 @@ export default class Search extends Component{
             );
 
         } else if (typeof options === 'object') {
-            res = Object.entries(options).map(([key, option]) =>
+            res = Object.entries(options)
+                .filter(([key]) => !blacklist.includes(key))
+                .map(([key, option]) =>
                 this.search(query, option, Search.capitalizeFirstLetter(key.toString()))
             );
         }
@@ -65,3 +67,7 @@ export default class Search extends Component{
         )
     }
 }
+
+Search.defaultProps = {
+    blacklist: []
+};
