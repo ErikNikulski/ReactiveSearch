@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Search from "./components/Search";
-import $ from 'jquery';
 
 class App extends Component {
 
@@ -12,31 +11,25 @@ class App extends Component {
         }
     }
 
-    changeStructure(array) {
+    changeStructure = (array) =>
         // https://stackoverflow.com/a/29177205
-        return array.reduce(function(acc, obj) {
-            Object.keys(obj).forEach(function(k) {
-                acc[k] = (acc[k] || []).concat(obj[k])
-            });
+        array.reduce((acc, obj) => {
+            Object.keys(obj)
+                .filter((k) => !['id', 'postId'].includes(k))
+                .forEach((k) =>
+                    acc[k] = (acc[k] || []).concat(obj[k])
+            );
             return acc
-        },{})
-    }
+        },{});
 
     getData() {
-        $.ajax({
-            url: 'https://jsonplaceholder.typicode.com/comments',
-            dataType: 'json',
-            cache: false,
-            success: function (data) {
-                let options = this.changeStructure(data);
-                delete options.id;
-                delete options.postId;
-                this.setState({options: options})
-            }.bind(this),
-            error: function (xhr, status, err) {
-                console.log(err);
-            }
-        })
+        fetch('https://jsonplaceholder.typicode.com/comments')
+        .then(response => response.json())
+        .then(json =>
+            this.setState({
+                options: this.changeStructure(json)
+            })
+        );
     }
 
     componentWillMount() {
