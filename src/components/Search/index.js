@@ -58,7 +58,9 @@ export default class Search extends Component{
                     </Toolbar>
                 </AppBar>
                 {
-                    this.state.query.length > 2 ?
+                    this.props.error ?
+                        'There was an error fetching the data!'
+                    : this.state.query.length > 2 ?
                         <SearchResults results={this.state.results}/>
                     :
                         undefined

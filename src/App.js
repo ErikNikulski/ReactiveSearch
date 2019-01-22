@@ -7,7 +7,8 @@ class App extends Component {
         super(props);
 
         this.state = {
-            options: {}
+            options: {},
+            error: null
         }
     }
 
@@ -28,7 +29,7 @@ class App extends Component {
             this.setState({
                 options: this.changeStructure(json)
             })
-        );
+        ).catch(error => this.setState({ error }));
     }
 
     componentWillMount() {
@@ -42,7 +43,7 @@ class App extends Component {
     render() {
         return (
             <div className='App'>
-                <Search data={this.state.options} blacklist={['id', 'postId']}/>
+                <Search data={this.state.options} blacklist={['id', 'postId']} error={this.state.error}/>
             </div>
         );
     }
