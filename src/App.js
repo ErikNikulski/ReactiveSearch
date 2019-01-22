@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Snackbar} from "@material-ui/core";
 import Search from "./components/Search";
 
 class App extends Component {
@@ -8,8 +9,15 @@ class App extends Component {
 
         this.state = {
             options: {},
-            error: false
-        }
+            error: false,
+            show_error: false
+        };
+
+        this.handleErrorClose = this.handleErrorClose.bind(this);
+    }
+
+    handleErrorClose() {
+        this.setState({show_error: false})
     }
 
     changeStructure = (array) =>
@@ -29,7 +37,7 @@ class App extends Component {
             this.setState({
                 options: this.changeStructure(json)
             })
-        ).catch(() => this.setState({ error: true }));
+        ).catch(() => this.setState({ error: true, show_error: true }));
     }
 
     componentWillMount() {
@@ -44,6 +52,19 @@ class App extends Component {
         return (
             <div className='App'>
                 <Search data={this.state.options} blacklist={['id', 'postId']} error={this.state.error}/>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.show_error}
+                    autoHideDuration={6000}
+                    onClose={this.handleErrorClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span>There was an error fetching the data!</span>}
+                />
             </div>
         );
     }
