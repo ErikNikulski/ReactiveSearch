@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { Input, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
@@ -33,4 +34,8 @@ const SearchBar = ({ onQueryChange }) => (
         </InputSearchWrapper>
 );
 
-export default memo(SearchBar)
+export default memo(SearchBar);
+
+SearchBar.propTypes = {
+    onQueryChange: PropTypes.func.isRequired
+};

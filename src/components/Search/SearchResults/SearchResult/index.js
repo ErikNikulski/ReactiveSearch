@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { ListItem, ListItemText } from "@material-ui/core";
 
 const SearchResult = ({ result }) => (
@@ -7,4 +8,8 @@ const SearchResult = ({ result }) => (
     </ListItem>
 );
 
-export default memo(SearchResult)
+export default memo(SearchResult);
+
+SearchResult.propTypes = {
+    result: PropTypes.string.isRequired
+};

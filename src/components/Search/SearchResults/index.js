@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { List, ListSubheader, ListItem, ListItemText } from '@material-ui/core';
 import SearchResult from './SearchResult';
 
@@ -46,4 +47,19 @@ const SearchResults = ({ results: { title, results } }) => {
     )
 };
 
-export default memo(SearchResults)
+export default memo(SearchResults);
+
+const resultsShape = {
+    title: PropTypes.string
+};
+
+resultsShape.results = PropTypes.arrayOf(
+    PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape(resultsShape)
+    ])
+);
+
+SearchResults.propTypes = {
+    results: PropTypes.shape(resultsShape).isRequired
+};

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { AppBar, Toolbar } from '@material-ui/core';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
@@ -70,4 +71,20 @@ export default class Search extends Component{
 
 Search.defaultProps = {
     blacklist: []
+};
+
+const dataShape = {
+    key: PropTypes.arrayOf(PropTypes.string)
+};
+
+dataShape.key = PropTypes.arrayOf(
+    PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape(dataShape)
+    ])
+);
+
+Search.propTypes = {
+    data: PropTypes.shape(dataShape).isRequired,
+    blacklist: PropTypes.arrayOf(PropTypes.string)
 };
