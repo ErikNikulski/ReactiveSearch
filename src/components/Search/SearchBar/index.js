@@ -23,8 +23,10 @@ const IconWrapper = styled(IconButton)`
 `;
 
 const SearchBar = ({ onQueryChange, debounce: debounceTime }) => {
+    const __debounce = debounceTime ? debounce : x => x;
+
     const handleQueryChange = event => {
-        debounce(value => onQueryChange(value), debounceTime)(event.target.value)
+        __debounce(value => onQueryChange(value), debounceTime)(event.target.value)
     };
 
     return (
