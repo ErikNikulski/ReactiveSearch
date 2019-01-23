@@ -42,7 +42,7 @@ export default class Search extends Component{
             res = Object.entries(options)
                 .filter(([key]) => !blacklist.includes(key))
                 .map(([key, option]) =>
-                this.search(query, option, Search.capitalizeFirstLetter(key.toString()))
+                this.search(query, option, Search.capitalizeFirstLetter(key.toString()), blacklist)
             );
         }
 
