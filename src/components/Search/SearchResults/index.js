@@ -61,5 +61,6 @@ resultsShape.results = PropTypes.arrayOf(
 );
 
 SearchResults.propTypes = {
+    title: PropTypes.string,
     results: PropTypes.shape(resultsShape).isRequired
 };
