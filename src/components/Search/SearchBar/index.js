@@ -45,6 +45,10 @@ const SearchBar = ({ onQueryChange, debounce: debounceTime }) => {
 
 export default memo(SearchBar);
 
+SearchBar.defaultProps = {
+    debounceTime: 0
+};
+
 SearchBar.propTypes = {
     onQueryChange: PropTypes.func.isRequired,
     debounce: PropTypes.number
